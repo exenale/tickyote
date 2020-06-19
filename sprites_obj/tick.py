@@ -4,13 +4,13 @@ import os
 
 img_assets_dir = "image_assets/"
 class Tick(pygame.sprite.DirtySprite):
-    def __init__(self):
+    def __init__(self, screen_width, screen_height):
         pygame.sprite.Sprite.__init__(self)
-        self.screen_height = 300
-        self.screen_width = 500
+        self.screen_height = screen_height
+        self.screen_width = screen_width
         self.image = pygame.image.load(os.path.join(img_assets_dir, "tick.png"))
         self.rect = self.image.get_rect()
-        self.rect.center = (500 / 2, 300 / 2)
+        self.rect.center = (screen_width / 2, screen_height / 2)
         self.logger = logging.getLogger("sds")
     
     def moveRight(self, step_length):
@@ -34,9 +34,8 @@ class Tick(pygame.sprite.DirtySprite):
         self.rect.y  += step_length
 
     def move(self, direction):
-        self.logger.info(f"direction {direction}")
         self.source_rec = self.image.get_rect()
-        step_length = 10
+        step_length = 8
         switcher = {
             275: self.moveRight,
             276: self.moveLeft,
