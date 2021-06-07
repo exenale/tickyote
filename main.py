@@ -4,6 +4,7 @@ import time
 import logging
 from sprites_obj.tick import Tick
 from sprites_obj.grass import Grass
+from sprites_obj.vegetation import Wildflowers
 import sys
 img_assets_dir = "image_assets/"
 screen_width = 642
@@ -53,19 +54,21 @@ def main():
     while running: 
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
-                if event.key == 103:
-                    make_grass = True
+                if event.key == 103: # G
                     grass_rect = snap_to_grid(tick_sprite.rect)
                     grass = Grass(grass_rect.x+15, grass_rect.y+15)
-                    for sprite in garden_sprites:
-                        if sprite.rect.colliderect(grass.rect):
-                            logger.info("grass already here")
-                            make_grass = False
-                    if make_grass:
+                    if check_garden_sprite_collision(grass, garden_sprites):
                         logger.info("Grow some grass")
                         garden_sprites.add(grass)
                         play_sound("thud")
-                if event.key==104:
+                if event.key == 105: ## i
+                    grass_rect = snap_to_grid(tick_sprite.rect)
+                    vegetation = Wildflowers(grass_rect.x+15, grass_rect.y+15)
+                    if check_garden_sprite_collision(vegetation, garden_sprites):
+                        logger.info(f"Grow some {vegetation.name}")
+                        garden_sprites.add(vegetation)
+                        play_sound("thud")
+                if event.key==104: # h
                     dirt_rect = snap_to_grid(tick_sprite.rect)
                     for sprite in garden_sprites:
                         if sprite.rect.colliderect(dirt_rect):
@@ -87,6 +90,14 @@ def main():
                 
             if event.type == pygame.QUIT:
                 running = False
+
+
+def check_garden_sprite_collision(new_sprite, garden_sprites):
+    for sprite in garden_sprites:
+        if sprite.rect.colliderect(new_sprite.rect):
+            sprite.logger.info(f"{sprite.name} already here")
+            return False
+    return True
 
 
 def snap_to_grid(rect):
