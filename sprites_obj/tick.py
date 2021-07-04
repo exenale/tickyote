@@ -37,10 +37,10 @@ class Tick(pygame.sprite.DirtySprite):
         self.source_rec = self.image.get_rect()
         step_length = 8
         switcher = {
-            275: self.moveRight,
-            276: self.moveLeft,
-            274: self.moveDown,
-            273: self.moveUp
+            1073741903: self.moveRight,
+            1073741904: self.moveLeft,
+            1073741905: self.moveDown,
+            1073741906: self.moveUp
         }
         func = switcher.get(direction)
         self.dirty = 1

@@ -10,17 +10,17 @@ import sys
 from key_commands import press_down
 from sprite_utils import get_grid_rect
 
-_sound_library = {}
+# _sound_library = {}
 
-def play_sound(path):
-  global _sound_library
-  sound = _sound_library.get(path)
-  if sound == None:
-    canonicalized_path = os.path.join("sounds/", path +".wav")
-    print(canonicalized_path)
-    sound = pygame.mixer.Sound(canonicalized_path)
-    _sound_library[path] = sound
-  sound.play()
+# def play_sound(path):
+#   global _sound_library
+#   sound = _sound_library.get(path)
+#   if sound == None:
+#     canonicalized_path = os.path.join("sounds/", path +".wav")
+#     print(canonicalized_path)
+#     sound = pygame.mixer.Sound(canonicalized_path)
+#     _sound_library[path] = sound
+#   sound.play()
 
 
 def main():
@@ -34,7 +34,7 @@ def main():
     # add ch to logger
     logger.addHandler(ch)
     pygame.init()
-
+    
     logo = pygame.image.load(os.path.join(IMAGE_ASSETS_DIR, "icon.png"))
     pygame.display.set_icon(logo)
     pygame.display.set_caption("minimal tickyote")
@@ -54,6 +54,7 @@ def main():
                 press_down(event, game_sprites)
                 for sprite in game_sprites.all:
                     sprite.move(event.key)
+                    logger.info(event.key)
                     if (sprite.dirty):
                         refresh_rects.append(sprite.source_rec)
                         refresh_rects.append(sprite.image.get_rect())
